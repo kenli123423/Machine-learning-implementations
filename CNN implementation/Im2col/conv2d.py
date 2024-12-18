@@ -4,7 +4,11 @@ import numpy as np
 import sys 
 import gc
 gc.enable()
-
+'''
+Note : This is an implementation to the im2col and col2im technique of Convolutional Neural Network, they are much faster than the for-loop approaches, free to use them for your own project
+This code uses cupy and GPU, please ensure you have installed cupy, cuda and other necessary toolkit to run this code
+Reference : Neural network and deep learning (2023,C.C.Aggarwal)
+'''
 
 def im2col_cupy(X_train:cp.array, kernel:cp.array, stride:int, pad:int) -> tuple:
     #Declare data type 
@@ -33,8 +37,6 @@ def im2col_cupy(X_train:cp.array, kernel:cp.array, stride:int, pad:int) -> tuple
         for i in range(0, out_h)
         for j in range(0, out_w)
     ])
- 
-    # Manually delete the variables to save memory 
 
     #Divide matrix into chunks if out_of_memory error occured
     try:
@@ -57,7 +59,8 @@ def im2col_cupy(X_train:cp.array, kernel:cp.array, stride:int, pad:int) -> tuple
 
             #Concatenate the small chunks together to make the original matrix  
         a = cp.concatenate(r, axis=1).reshape((N, OC, out_h, out_w))
-        
+        #Return the columns, convolved feature map and flattened kernel for backpropagation 
+    
     return columns.reshape((N, C, HH, WW, out_h, out_w)) , k_flatten, a
 
 def col2im(cols:cp.array, input:cp.array, kernel:cp.array, stride:int, pad:int) -> cp.array:
@@ -110,7 +113,7 @@ def conv2d_backward(dout, X, kernel, stride, pad):
 
     return dX, dW, db
 
-# Testing the function
+# Testing the function with arbitrary X_train and kernels 
 X_train = cp.random.randn(1000, 3, 30, 30)
 kernel = cp.random.randn(100, 3, 3, 3)
 start = time.time()
