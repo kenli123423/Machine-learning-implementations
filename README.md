@@ -1,0 +1,1 @@
+I am currently a computer vision student which strives to improve the performance of CNN, i will post some of my implementation of CNN/Computer vision related algorithm here, hope it helps any people to further understand the principle behind CNN or for custom CNN architecture design
