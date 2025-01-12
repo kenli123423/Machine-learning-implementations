@@ -1,4 +1,5 @@
 '''
+Note this is an example usage of CNN, you can change the data/optimization methods/architecture on your own to fit your needs.
 Copyright (C) <2024> <Pony>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
