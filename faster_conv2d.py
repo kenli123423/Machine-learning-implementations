@@ -1,3 +1,8 @@
+'''
+This is an implementation to the convolution, given a feature map and kernel, arbitrary strides and padding can be used in this program.
+Note that in this version, you might get a out of memory error when running the col2im function, which i will resolve this problem in later version.
+'''
+
 import cupy as cp
 import cupyx
 import cupyx.distributed
@@ -15,6 +20,7 @@ def cupy_matmul(a:cp.array,b:cp.array):
     _, ca = a.shape
     rb, _ = b.shape
     assert ca == rb, f"{ca!=rb}"
+    # Assertion for faster data bypass
     return cp.matmul(a,b,dtype=cp.float16, casting='same_kind', order='C')
 
 
@@ -54,7 +60,7 @@ def im2col_cupy_optimized(X_train: cp.array, kernel: cp.array, stride: int, pad:
             with cp.cuda.Stream() as stream:
                 a = cupy_matmul(k_flatten, columns)
             stream.synchronize()
-
+    # Divide into chunks once the GPU memory is not enough
     except cp.cuda.memory.OutOfMemoryError:
         chunks = 5
         r = []
@@ -114,7 +120,7 @@ def conv2d_backward(dout, X, kernel, stride, pad):
     return dX, dW, db
 
 
-# Testing the function
+# Testing the function with arbitrary cupy random array
 X_train = cp.random.randn(5000, 3, 30, 30).astype(cp.float16)
 kernel = cp.random.randn(100, 3, 3, 3).astype(cp.float16)
 start = time.time()
@@ -122,4 +128,5 @@ _, _, a = im2col_cupy_optimized(X_train, kernel, stride=1, pad=1)
 end = time.time()
 cp.cuda.Stream.null.synchronize()
 dout = cp.random.randn(*a.shape)
+#Testing backward function usage
 dX, dW, db = conv2d_backward(dout, X_train, kernel, stride=1, pad=1)
