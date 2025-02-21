@@ -29,12 +29,3 @@ Welcome to **My Machine Learning Library**! This is an open-source library built
   - Sigmoid
   - Softmax
 
----
-
-## Installation 🛠️
-
-To use this library, simply clone the repository and import the modules into your project.
-
-```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
