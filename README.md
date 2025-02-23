@@ -11,6 +11,9 @@ Welcome to **My Machine Learning Library**! This is an open-source library built
 - **Growing Collection**: New algorithms and techniques added regularly.
 
 ### Currently Implemented Algorithms
+- **Machine Learning**
+    - Perceptron
+    - k-NN classifier
 - **Neural Networks**:
   - Convolutional Neural Networks (CNN)
   - Multi-Layer Perceptron (MLP)
