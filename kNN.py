@@ -1,3 +1,7 @@
+"""
+This is an implementation of kNN using heap, it has a computational complexity of O(nlogk).
+"""
+
 import numpy as np 
 import heapq
 
